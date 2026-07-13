@@ -1,6 +1,12 @@
 server:
   port: 8080
 
+info:
+  app:
+    name: API Gateway
+    description: Central API Gateway for Movie Ticket Booking Platform
+    version: 1.0.0
+
 eureka:
   client:
     register-with-eureka: true
