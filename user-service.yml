@@ -1,7 +1,8 @@
-# user-service.yml
 server:
   port: 8081
 
-spring:
-  application:
-    name: user-service
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+
