@@ -16,13 +16,17 @@ management:
     web:
       exposure:
         include: "*"
+  info:
+    env:
+      enabled: true
+  endpoint:
+    gateway:
+      access: unrestricted
 logging:
   level:
     org.springframework.cloud.gateway: INFO
 
-info:
-  app:
-    name: API-GATEWAY
+
 spring:
   cloud:
     gateway:
