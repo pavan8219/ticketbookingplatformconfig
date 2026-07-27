@@ -2,7 +2,6 @@ server:
   port: 8080
 
 spring:
-
   cloud:
     gateway:
       discovery:
@@ -12,11 +11,11 @@ spring:
 
       routes:
         - id: user-service
-          uri: lb://USER-SERVICE
+          uri: lb://user-service
           predicates:
             - Path=/user/**
           filters:
-            - RewritePath=/user/(?<segment>.*), /${segment}
+            - RewritePath=/user(?<segment>/?.*), /$\{segment}
 
 eureka:
   client:
