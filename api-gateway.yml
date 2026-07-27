@@ -50,5 +50,6 @@ info:
 
 logging:
   level:
-    org.springframework.cloud.gateway: DEBUG
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.cloud.gateway.config: TRACE
     org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: TRACE
