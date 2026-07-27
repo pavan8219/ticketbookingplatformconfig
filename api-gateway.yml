@@ -39,3 +39,10 @@ spring:
       discovery:
         locator:
           enabled: false
+      routes:
+          - id: user-service
+              uri: lb://USERSERVICE
+              predicates:
+                - Path=/user/**
+              filters:
+                - RewritePath=/user/(?<segment>.*), /${segment}
