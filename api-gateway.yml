@@ -39,10 +39,16 @@ spring:
       discovery:
         locator:
           enabled: false
+    server:
+       webflux:
+         discovery:
+           locator:
+             enabled: true
+             lower-case-service-id: true
       routes:
           - id: user-service
             uri: lb://USERSERVICE
             predicates:
-                - Path=/user/**
+              - Path=/user/**
             filters:
-                - RewritePath=/user/(?<segment>.*), /${segment}
+              - RewritePath=/user/(?<segment>.*), /${segment}
