@@ -41,8 +41,8 @@ spring:
           enabled: false
       routes:
           - id: user-service
-              uri: lb://USERSERVICE
-              predicates:
+            uri: lb://USERSERVICE
+            predicates:
                 - Path=/user/**
-              filters:
+            filters:
                 - RewritePath=/user/(?<segment>.*), /${segment}
