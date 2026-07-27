@@ -1,11 +1,24 @@
 server:
   port: 8080
 
-info:
-  app:
-    name: API Gateway
-    description: Central API Gateway for Movie Ticket Booking Platform
-    version: 1.0.0
+spring:
+  application:
+    name: API-GATEWAY
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+
+      routes:
+        - id: user-service
+          uri: lb://USERSERVICE
+          predicates:
+            - Path=/user/**
+          filters:
+            - RewritePath=/user/(?<segment>.*), /${segment}
 
 eureka:
   client:
@@ -13,42 +26,32 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka
+
   instance:
-     prefer-ip-address: true
-     instance-id: ${spring.application.name}:${server.port}
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
 
 management:
   endpoints:
     web:
       exposure:
         include: "*"
-  info:
-    env:
-      enabled: true
+
   endpoint:
     gateway:
       access: unrestricted
+
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: API Gateway
+    description: Central API Gateway for Movie Ticket Booking Platform
+    version: 1.0.0
+
 logging:
   level:
-    org.springframework.cloud.gateway: INFO
-
-
-spring:
-  cloud:
-    gateway:
-      discovery:
-        locator:
-          enabled: false
-    server:
-       webflux:
-         discovery:
-           locator:
-             enabled: true
-             lower-case-service-id: true
-      routes:
-          - id: user-service
-            uri: lb://USERSERVICE
-            predicates:
-              - Path=/user/**
-            filters:
-              - RewritePath=/user/(?<segment>.*), /${segment}
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: TRACE
