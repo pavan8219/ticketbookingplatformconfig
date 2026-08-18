@@ -3,7 +3,8 @@ server:
 
 spring:
   application:
-    name: api-gateway`
+    name: api-gateway
+
   cloud:
     gateway:
       server:
@@ -15,46 +16,46 @@ spring:
 
           routes:
             - id: user-service
-              uri: lb://user-service
+              uri: lb://USER-SERVICE
               predicates:
                 - Path=/user/**
               filters:
                 - RewritePath=/user/(?<segment>.*), /${segment}
-                
-           - id: movie-service
-             uri: lb://MOVIE-SERVICE
-             predicates:
-               - Path=/movie/**
-             filters:
-               - RewritePath=/movie/(?<segment>.*), /${segment}
-        
+
+            - id: movie-service
+              uri: lb://MOVIE-SERVICE
+              predicates:
+                - Path=/movie/**
+              filters:
+                - RewritePath=/movie/(?<segment>.*), /${segment}
+
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
     fetch-registry: true
     register-with-eureka: true
-  instance:
-   prefer-ip-address: true
-   instance-id: ${spring.application.name}:${server.port}
 
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
 
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+
   info:
     env:
       enabled: true
+
   endpoint:
     gateway:
       access: unrestricted
 
 info:
   app:
-   name: ${spring.application.name}
-   description: ApiGateway Microservice
-   version: 1.0.0
-
-
+    name: ${spring.application.name}
+    description: ApiGateway Microservice
+    version: 1.0.0
