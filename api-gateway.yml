@@ -20,6 +20,12 @@ spring:
                 - Path=/user/**
               filters:
                 - RewritePath=/user/(?<segment>.*), /${segment}
+           - id: movie-service
+             uri: lb://MOVIE-SERVICE
+             predicates:
+               - Path=/movie/**
+             filters:
+               - RewritePath=/movie/(?<segment>.*), /${segment}
         
 eureka:
   client:
