@@ -20,6 +20,7 @@ spring:
                 - Path=/user/**
               filters:
                 - RewritePath=/user/(?<segment>.*), /${segment}
+                
            - id: movie-service
              uri: lb://MOVIE-SERVICE
              predicates:
