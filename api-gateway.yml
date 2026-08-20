@@ -30,7 +30,7 @@ spring:
                 - RewritePath=/movie/(?<segment>.*), /${segment}
 
             - id: booking-service
-              uri: lb://BOOKING-SERVICE
+              uri: lb://BOOKINGSERVICE
               predicates:
                 - Path=/booking/**
               filters:
