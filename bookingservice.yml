@@ -30,7 +30,9 @@ spring:
 
       properties:
         spring.json.trusted.packages: com.movieticket.*
-        spring.json.type.mapping: "com.movieticket.movieservice.events.ShowCreatedEvent:com.movieticket.bookingservice.events.ShowCreatedEvent,com.movieticket.paymentservice.events.PaymentSuccessfulEvent:com.movieticket.bookingservice.events.PaymentSuccessfulEvent"
+        spring.json.type.mapping: >
+            com.movieticket.movieservice.events.ShowCreatedEvent:com.movieticket.bookingservice.events.ShowCreatedEvent
+            com.movieticket.paymentservice.events.PaymentSuccessfulEvent:com.movieticket.bookingservice.events.PaymentSuccessfulEvent
         
   data:
     redis:
