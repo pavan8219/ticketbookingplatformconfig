@@ -1,3 +1,4 @@
+
 server:
   port: 8082
 
@@ -6,9 +7,9 @@ spring:
     name: movie-service
 
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3309/ticketplatform?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
-    username: ${SPRING_DATASOURCE_USERNAME:root}
-    password: ${SPRING_DATASOURCE_PASSWORD:root}
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3309}/ticketplatform?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -20,7 +21,7 @@ spring:
         format_sql: true
 
   kafka:
-    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
@@ -36,24 +37,8 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka}
+      defaultZone: ${DISCOVERY_SERVER_URL:http://localhost:8761/eureka}
 
   instance:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${server.port}
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  info:
-    env:
-      enabled: true
-  endpoint:
-    gateway:
-      access: unrestricted
-
-logging:
-  level:
-    org.springframework.cloud.gateway: INFO
