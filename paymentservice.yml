@@ -1,11 +1,15 @@
+
 server:
   port: 8084
 
 spring:
+  application:
+    name: paymentservice
+
   datasource:
-    url: jdbc:mysql://localhost:3309/ticketplatform?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-    username: root
-    password: root
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3309}/ticketplatform?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -15,8 +19,10 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
@@ -24,14 +30,11 @@ spring:
     consumer:
       group-id: payment-service
       auto-offset-reset: earliest
-
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-
       properties:
-        spring.json.trusted.packages: com.movieticket.*
+        spring.json.trusted.packages: "com.movieticket.*"
         spring.json.type.mapping: "com.movieticket.bookingservice.events.PaymentRequestEvent:com.movieticket.paymentservice.events.PaymentRequestEvent"
-
 
 info:
   app:
@@ -44,7 +47,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: ${DISCOVERY_SERVER_URL:http://localhost:8761/eureka}
 
   instance:
     prefer-ip-address: true
@@ -59,13 +62,3 @@ management:
   info:
     env:
       enabled: true
-
-  endpoint:
-    gateway:
-      access: unrestricted
-
-logging:
-  level:
-    org.springframework.cloud.gateway: INFO
-
-
