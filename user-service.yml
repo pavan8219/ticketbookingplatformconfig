@@ -1,11 +1,15 @@
+
 server:
   port: 8081
 
 spring:
+  application:
+    name: userservice
+
   datasource:
-    url: jdbc:mysql://localhost:3309/ticketplatform?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-    username: root
-    password: root
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3309}/ticketplatform?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -16,28 +20,22 @@ spring:
       hibernate:
         format_sql: true
 
-  cloud:
-    gateway:
-      discovery:
-        locator:
-          enabled: false
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${DISCOVERY_SERVER_URL:http://localhost:8761/eureka}
+
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
 
 info:
   app:
     name: User Service
     description: User service is for registering users
     version: 1.0.0
-
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-
-  instance:
-    prefer-ip-address: true
-    instance-id: ${spring.application.name}:${server.port}
 
 management:
   endpoints:
@@ -49,14 +47,7 @@ management:
     env:
       enabled: true
 
-  endpoint:
-    gateway:
-      access: unrestricted
-
-logging:
-  level:
-    org.springframework.cloud.gateway: INFO
 jwt:
-  secret: 12345678987654321234567898765432112345678997654321
-  access-token-expiration: 900000
-  refresh-token-expiration: 2592000000
+  secret: ${JWT_SECRET:12345678987654321234567898765432112345678997654321}
+  access-token-expiration: ${JWT_ACCESS_TOKEN_EXPIRATION:900000}
+  refresh-token-expiration: ${JWT_REFRESH_TOKEN_EXPIRATION:2592000000}
